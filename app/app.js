@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors'); // Importa el paquete cors
-const pool = require('./db');
-const generalRoutes = require('./generalRoutes.js');
+const rutas = require('./routes_app.routes');
 
 // Configuración del middleware para manejar JSON
 app.use(express.json());
@@ -11,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 // Rutas y controladores del API van aquí
-app.use(generalRoutes);
+app.use(rutas);
 
 // Iniciar el servidor
 const PORT = 3000;
