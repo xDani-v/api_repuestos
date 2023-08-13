@@ -12,9 +12,9 @@ const obtenerComentarios = async (req, res) => {
 };
 
 const crearComentario = async (req, res) => {
-    const { contenido, usuario_id } = req.body;
+    const { contenido } = req.body;
     try {
-        await pool.query('INSERT INTO comentarios (contenido, usuario_id) VALUES ($1, $2)', [contenido, usuario_id]);
+        await pool.query('INSERT INTO comentarios (contenido) VALUES ($1)', [contenido]);
         res.status(201).json({ message: 'Comentario creado exitosamente' });
     } catch (err) {
         console.error(err.message);
@@ -26,7 +26,7 @@ const actualizarComentario = async (req, res) => {
     const { id } = req.params;
     const { contenido } = req.body;
     try {
-        await pool.query('UPDATE comentarios SET contenido = $1 WHERE comentario_id = $2', [contenido, id]);
+        await pool.query('UPDATE comentarios SET contenido = $1 WHERE id = $2', [contenido, id]);
         res.json({ message: 'Comentario actualizado exitosamente' });
     } catch (err) {
         console.error(err.message);
@@ -37,7 +37,7 @@ const actualizarComentario = async (req, res) => {
 const eliminarComentario = async (req, res) => {
     const { id } = req.params;
     try {
-        await pool.query('DELETE FROM comentarios WHERE comentario_id = $1', [id]);
+        await pool.query('DELETE FROM comentarios WHERE id = $1', [id]);
         res.json({ message: 'Comentario eliminado exitosamente' });
     } catch (err) {
         console.error(err.message);

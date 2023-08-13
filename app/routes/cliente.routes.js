@@ -15,4 +15,6 @@ router.put('/:id', clientesController.actualizarCliente);
 // Ruta para eliminar un cliente
 router.delete('/:id', clientesController.eliminarCliente);
 
+router.post('/login', clientesController.login);
+
 module.exports = router;

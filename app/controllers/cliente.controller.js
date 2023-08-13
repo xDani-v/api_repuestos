@@ -51,9 +51,29 @@ const eliminarCliente = async (req, res) => {
     }
 };
 
+
+const login = async (req, res) => {
+
+    const { correo, password } = req.body;
+
+    const result = await pool.query(
+        'SELECT * FROM clientes WHERE correo = $1 AND password = $2 AND rol_id = 3',
+        [correo, password]
+    );
+
+    if (result.rows.length > 0) {
+        const user = result.rows[0];
+        // Aquí puedes generar un token de autenticación si lo deseas
+        res.status(200).json(user);
+    } else {
+        res.status(401).json({ message: 'Correo electrónico o contraseña incorrectos' });
+    }
+};
+
 module.exports = {
     obtenerClientes,
     crearCliente,
     actualizarCliente,
     eliminarCliente,
+    login
 };
