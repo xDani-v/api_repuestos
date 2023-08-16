@@ -5,6 +5,7 @@ const detallePedidosController = require('../controllers/detallePedidos.controll
 
 // Ruta para obtener todos los detalles de pedidos
 router.get('/', detallePedidosController.obtenerDetallePedidos);
+router.get('/:id', detallePedidosController.obtenerDetallePedidosId);
 
 // Ruta para crear un nuevo detalle de pedido
 router.post('/', detallePedidosController.crearDetallePedido);

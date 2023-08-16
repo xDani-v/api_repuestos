@@ -11,6 +11,17 @@ const obtenerDetallePedidos = async (req, res) => {
     }
 };
 
+const obtenerDetallePedidosId = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const detallePedidos = await pool.query('SELECT * FROM detalle_pedidos where pedido_id = $1', [id]);
+        res.json(detallePedidos.rows);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Error al obtener los detalles de pedidos' });
+    }
+};
+
 const crearDetallePedido = async (req, res) => {
     const { pedido_id, repuesto_id, cantidad, precio } = req.body;
     try {
@@ -56,4 +67,5 @@ module.exports = {
     crearDetallePedido,
     actualizarDetallePedido,
     eliminarDetallePedido,
+    obtenerDetallePedidosId
 };
