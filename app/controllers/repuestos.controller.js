@@ -1,6 +1,7 @@
 // controllers/repuestosController.js
 const pool = require('../db');
 
+
 const obtenerRepuestos = async (req, res) => {
     try {
         const repuestos = await pool.query('SELECT * FROM repuestos');
@@ -12,12 +13,15 @@ const obtenerRepuestos = async (req, res) => {
 };
 
 const crearRepuesto = async (req, res) => {
-    const { nombre, descripcion, precio, stock, categoria_id, proveedor_id } = req.body;
+    const { nombre, descripcion, precio, stock, categoria_id, proveedor_id, imgUrl } = req.body;
+
     try {
+        // Insertar el repuesto en la base de datos con la URL de la imagen
         await pool.query(
-            'INSERT INTO repuestos (nombre, descripcion, precio, stock, categoria_id, proveedor_id) VALUES ($1, $2, $3, $4, $5, $6)',
-            [nombre, descripcion, precio, stock, categoria_id, proveedor_id]
+            'INSERT INTO repuestos (nombre, descripcion, precio, stock, categoria_id, proveedor_id, imagen_url) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+            [nombre, descripcion, precio, stock, categoria_id, proveedor_id, imgUrl]
         );
+
         res.status(201).json({ message: 'Repuesto creado exitosamente' });
     } catch (err) {
         console.error(err.message);
@@ -27,18 +31,25 @@ const crearRepuesto = async (req, res) => {
 
 const actualizarRepuesto = async (req, res) => {
     const { id } = req.params;
-    const { nombre, descripcion, precio, stock, categoria_id, proveedor_id } = req.body;
+    const { nombre, descripcion, precio, stock, categoria_id, proveedor_id, imgUrl } = req.body;
+
     try {
-        await pool.query(
-            'UPDATE repuestos SET nombre = $1, descripcion = $2, precio = $3, stock = $4, categoria_id = $5, proveedor_id = $6 WHERE repuesto_id = $7',
-            [nombre, descripcion, precio, stock, categoria_id, proveedor_id, id]
-        );
+
+        // Actualizar los datos del repuesto en la base de datos, incluida la URL de la imagen si está presente
+        let updateQuery = `UPDATE repuestos SET nombre = $1, descripcion = $2, precio = $3, stock = $4, categoria_id = $5, proveedor_id = $6, imagen_url = $7
+        where repuesto_id=$8`;
+
+        const queryParams = [nombre, descripcion, precio, stock, categoria_id, proveedor_id, imgUrl, id];
+
+        await pool.query(updateQuery, queryParams);
+
         res.json({ message: 'Repuesto actualizado exitosamente' });
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ error: 'Error al actualizar el repuesto' });
     }
-};
+}
+
 
 const eliminarRepuesto = async (req, res) => {
     const { id } = req.params;

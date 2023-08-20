@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const repuestosController = require('../controllers/repuestos.controller');
 
+
 // Ruta para obtener todos los repuestos
 router.get('/', repuestosController.obtenerRepuestos);
 
