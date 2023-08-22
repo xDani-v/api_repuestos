@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors'); // Importa el paquete cors
 const rutas = require('./routes_app.routes');
 
+
 // Configuración del middleware para manejar JSON
 app.use(express.json());
 
