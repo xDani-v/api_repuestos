@@ -6,6 +6,7 @@ const repuestosController = require('../controllers/repuestos.controller');
 
 // Ruta para obtener todos los repuestos
 router.get('/', repuestosController.obtenerRepuestos);
+router.get('/:id', repuestosController.obtenerRepuestosId);
 
 // Ruta para crear un nuevo repuesto
 router.post('/', repuestosController.crearRepuesto);

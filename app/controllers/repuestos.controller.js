@@ -12,6 +12,18 @@ const obtenerRepuestos = async (req, res) => {
     }
 };
 
+const obtenerRepuestosId = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const repuestos = await pool.query('SELECT * FROM repuestos where repuesto_id=$1', [id]);
+        res.json(repuestos.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Error al obtener los repuestos' });
+    }
+};
+
+
 const crearRepuesto = async (req, res) => {
     const { nombre, descripcion, precio, stock, categoria_id, proveedor_id, imgUrl } = req.body;
 
@@ -67,4 +79,5 @@ module.exports = {
     crearRepuesto,
     actualizarRepuesto,
     eliminarRepuesto,
+    obtenerRepuestosId
 };
